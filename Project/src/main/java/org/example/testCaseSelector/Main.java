@@ -77,10 +77,14 @@ public class Main {
     private static void before(String[] args) throws IOException, InvalidClassFileException, ClassHierarchyException, CancelException {
         String projectTarget = args[1];
         String changeInfo = args[2];
-        String[] targetPath = args[1].split("/");
-        projectName = targetPath[targetPath.length - 2].split("-")[1];
-        if (!projectTarget.endsWith("/"))
-            projectTarget += "/";
+        String[] targetPath = args[1].split("/|\\\\");
+        try {
+            projectName = targetPath[targetPath.length - 2].split("-")[1];
+        }catch (Exception e){
+            projectName = "unknown";
+        }
+        if (!projectTarget.endsWith(File.separator))
+            projectTarget += File.separator;
 
         /*
         String scopePath = Main.class.getClassLoader().getResource("scope.txt").getPath();
